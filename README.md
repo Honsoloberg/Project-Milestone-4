@@ -1,28 +1,31 @@
-# Project Milestone 2: Data Storage and Integration Connectors
-## SOFE4630U-MS1
+# Project Milestone 4: Microservices using Google Pub/Sub Communication
+## SOFE4630U-MS4
 
 ### Objectives
-1. Get familiar with Docker images and containers.
-2. Deploy tabular and key-value data storage using Google Kubernetes Engine (GKE).
-3. Get familiar with key-value data storage.
-4. Create and configure connectors from Google Pub/Sub to MySQL server.
-5. Create and configure connectors from Google Pub/Sub to Redis server.
+1. Get familiar with microservices
+2. Impelement microservice using Python
+3. Containerize Python application
+4. Configure Pub/Sub Subscription(s) to filter the receiving messages.
 
 ### Content
 1. Labels.csv
     - Contains simulated Sensor Data
 
-2. producer.py
+2. producer.py (run locally as a simple producer script)
     - Iterates over the "Labels.csv" and validates each value that it's a float, String or None.
     - Converts each row in CSV into JSON and serializes the message
     - Publishes the JSON objects to a google cloud topic.
-        - Google Cloud then archives the messages into a mySQL database
-        - Messages sit inside the Topic until they are consumed by a client
 
-3. consumer.py
-    - Subscribes to a google cloud topic and consumes the JSON messages then formats the data to the termial.
+3. filter.py (Run as a micro service on Google Cloud)
+    - Reads messages from producer.py via a Google Topic (Pub/Sub)
+    - Standardizes the data from the producer.py. i.e. adds null values for values that are not defined
+    - Publishes the Standardized data back into the Google Topic
 
-4. milestone3_dataflow.py
-    - Starts an apache beam[gcp] pipeline.
-    - Pipeline reads from a Google Cloud Topic, Filters Null values, Converts Temperature and Pressure units to C and psi 
-      then publishes to another Google Cloud Topic
+4. convert.py (Run as a micro service on Google Cloud)
+    - Reads messages from the filter.py via a Google Topic (Pub/Sub)
+    - Does unit conversion of specific data fields provided those data fields are defined
+    - Publishes the data back to the Google Topic
+
+5. BQ_backup.py
+    - Reads messages from the convert.py via a Google Topic (Pub/Sub)
+    - Pushes the messages from the topic to a table in a Google BigQuery dataset
