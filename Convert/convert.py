@@ -19,7 +19,7 @@ topic_path = publisher.topic_path(project_id, topic_name)
 # create subscriber and get subscription path
 subscriber = pubsub_v1.SubscriberClient()
 subscription_path = subscriber.subscription_path(project_id, subscription_id)
-sub_filter = "attributes.function=\"filtered data\""  # the condition used for filtering the messages to be recieved 
+sub_filter = "attributes.function=\"filtered-data\""  # the condition used for filtering the messages to be recieved 
 
 def callback(message: pubsub_v1.subscriber.message.Message) -> None:
     # Make sure that the global variables are accessed from within the function.
@@ -43,7 +43,7 @@ def callback(message: pubsub_v1.subscriber.message.Message) -> None:
 
     bin_msg = json.dumps(msg_data).encode("utf-8")
 
-    publisher.publish(topic_path, bin_msg, function="converted data")
+    publisher.publish(topic_path, bin_msg, function="converted-data")
     
     message.ack()
 

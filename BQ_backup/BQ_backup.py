@@ -22,7 +22,7 @@ publisher.stop()
 # create subscriber and get subscription path
 subscriber = pubsub_v1.SubscriberClient()
 subscription_path = subscriber.subscription_path(project_id, subscription_id)
-sub_filter = "attributes.function=\"converted data\""  # the condition used for filtering the messages to be recieved
+sub_filter = "attributes.function=\"converted-data\""  # the condition used for filtering the messages to be recieved
 
 # create a BigQuery client
 bq = bigquery.Client()

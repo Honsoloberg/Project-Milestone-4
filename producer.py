@@ -9,7 +9,7 @@ files=glob.glob("*.json")
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"]=files[0]
 
 project_id="project-milestones-485816" # Needs to be changed when used in different Projects
-topic_name = "mnist_image"
+topic_name = "smartMeter"
 
 publisher = pubsub_v1.PublisherClient()
 topic_path = publisher.topic_path(project_id, topic_name)
@@ -25,7 +25,7 @@ try:
 
             try:    
                 # Publish the binary message to the google cloud topic
-                future = publisher.publish(topic_path, send, function="raw submit")
+                future = publisher.publish(topic_path, send, function="raw-submit")
                 
                 # wait for the transaction to complete
                 future.result()    
