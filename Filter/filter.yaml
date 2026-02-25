@@ -1,0 +1,26 @@
+--- 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: data-filter-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: data-filter
+  template:
+    metadata:
+      labels:
+        app: data-filter
+    spec:
+      containers:
+        - image: $FILTER_IMAGE
+          name: data-filter
+          env:
+            - name: GCP_PROJECT
+              value: $PROJECT
+            - name: TOPIC_SUB_ID
+              value: smartMeter-sub
+            - name: TOPIC_NAME
+              value: smartMeter
+--- 

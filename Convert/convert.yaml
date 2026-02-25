@@ -1,0 +1,26 @@
+--- 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: data-convert-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: data-convert
+  template:
+    metadata:
+      labels:
+        app: data-convert
+    spec:
+      containers:
+        - image: $CONVERT_IMAGE
+          name: data-convert
+          env:
+            - name: GCP_PROJECT
+              value: $PROJECT
+            - name: TOPIC_SUB_ID
+              value: smartMeter-sub
+            - name: TOPIC_NAME
+              value: smartMeter
+--- 

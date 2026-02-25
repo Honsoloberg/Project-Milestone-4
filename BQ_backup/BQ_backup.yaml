@@ -1,0 +1,30 @@
+--- 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: big-query-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: big-query
+  template:
+    metadata:
+      labels:
+        app: big-query
+    spec:
+      containers:
+        - image: $BIG_QUERY_IMAGE
+          name: big-query
+          env:
+            - name: GCP_PROJECT
+              value: $PROJECT
+            - name: TOPIC_NAME
+              value: smartMeter
+            - name: TOPIC_SUB_ID
+              value: smartMeter-sub
+            - name: BQ_DATASET
+              value: smartMeter
+            - name: BQ_TABLE
+              value: sensor_data
+--- 
