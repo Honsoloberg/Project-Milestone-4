@@ -23,6 +23,7 @@ sub_filter = "attributes.function=\"raw submit\""  # topic message filter
 
 def callback(message: pubsub_v1.subscriber.message.Message) -> None:
     # Make sure that the global variables are accessed from within the function.
+    
     global publisher, topic_path
     # get the message content
     msg_data = json.loads(message.data.decode("utf-8"))
